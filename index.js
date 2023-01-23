@@ -125,17 +125,17 @@ function init() {
                     "Beatmaps": [
                         {
                             "ID": ${mapIDs[10]},
-                            "Score": ${userData[i][12]},
+                            "Score": ${userData[i][13]},
                             "Seed": ${userData[i][31]}
                         },
                         {
                             "ID": ${mapIDs[11]},
-                            "Score": ${userData[i][13]},
+                            "Score": ${userData[i][14]},
                             "Seed": ${userData[i][32]}
                         },
                         {
                             "ID": ${mapIDs[12]},
-                            "Score": ${userData[i][14]},
+                            "Score": ${userData[i][15]},
                             "Seed": ${userData[i][33]}
                         }
                     ],
