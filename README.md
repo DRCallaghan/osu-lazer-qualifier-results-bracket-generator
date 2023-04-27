@@ -23,14 +23,30 @@
   - Make sure you have [node.js](https://nodejs.org/en) installed in VSCode after downloading it. I recommend installing the LTS build recommended for most users.
   - If you have git installed, clone the repo onto your drive.![clone the repo onto your drive](https://i.imgur.com/5SX5L8h.png)
   - If you do not have git installed, download a zip file of this repo.![download a zip file of this repo](https://i.imgur.com/oBaM6JE.png)
-  - Open a terminal in the project folder in your code editor.
+  - Open a terminal in the project directory in your code editor.
   - In the terminal, type `npm i`. Then hit enter.
-  - Add your `maps.csv` and `scores.csv` files to the `/db` folder. For the structure of these files, see [Usage](#usage).
+  - Add your `maps.csv` and `scores.csv` files to the `/db` directory. For the structure of these files, see [Usage](#usage). For example structure, sample files are included in the initial download of this program.
   - You are now ready to run the program!
 
 
   ## Usage:
-  TBA
+  - Make sure your `maps.csv` and `scores.csv` files are formatted correctly!
+  - `maps.csv` should follow a basic format of a header row with all slot names, followed by a single other row with all beatmap IDs. See the sample included in this download for an example. ![example](https://i.imgur.com/h203WSb.png)
+  - `scores.csv` should follow the following format, in order from left to right, starting with a header row:
+    - Team name
+    - Team flag code
+    - All map scores, in order
+    - Overall Seeding
+    - All overall mod pool seedings, in order
+    - All map seedings, in order
+    - Each team's team size
+    - All player IDs for each team, in order
+    - All player flag codes, in order
+  - See the sample included in this download for an example. ![example](https://i.imgur.com/Veh96AP.png)
+  - Once these files are correctly formatted and in the `/db` directory, you can run the program without issue.
+  - In the terminal, type `node index.js`.
+  - Follow all directions for listed in the terminal.
+  - Your Lazer `bracket.json` is now in the project directory! Make sure to move it out once finished; all future uses of this program will overwrite any existing file named `bracket.json` in the project directory.
 
   ## Outside Resources
   There were no collaborators on this project. My information can be found in Additional Info.
