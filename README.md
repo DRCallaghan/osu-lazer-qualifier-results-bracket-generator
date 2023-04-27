@@ -31,7 +31,8 @@
 
   ## Usage:
   - Make sure your `maps.csv` and `scores.csv` files are formatted correctly!
-  - `maps.csv` should follow a basic format of a header row with all slot names, followed by a single other row with all beatmap IDs. See the sample included in this download for an example. ![example](https://i.imgur.com/h203WSb.png)
+  - `maps.csv` should follow a basic format of a header row with all slot names, followed by a single other row with all beatmap IDs. See the sample included in this download for an example.
+  ![example](https://i.imgur.com/h203WSb.png)
   - `scores.csv` should follow the following format, in order from left to right, starting with a header row:
     - Team name
     - Team flag code
@@ -42,7 +43,8 @@
     - Each team's team size
     - All player IDs for each team, in order
     - All player flag codes, in order
-  - See the sample included in this download for an example. ![example](https://i.imgur.com/Veh96AP.png)
+  - See the sample included in this download for an example.
+  ![example](https://i.imgur.com/Veh96AP.png)
   - Once these files are correctly formatted and in the `/db` directory, you can run the program without issue.
   - In the terminal, type `node index.js`.
   - Follow all directions for listed in the terminal.
