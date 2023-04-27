@@ -21,7 +21,7 @@
   ## Installation:
   - If you do not have a program which can run CLI apps installed, first install one. I recommend [VSCode](https://code.visualstudio.com/) for Windows users.
   - Make sure you have [node.js](https://nodejs.org/en) installed in VSCode after downloading it. I recommend installing the LTS build recommended for most users.
-  - If you have git installed, clone the repo onto your drive.![clone the repo onto your drive](https://i.imgur.com/5SX5L8h.png)
+  - If you have git installed, clone the repo onto your drive or download the zip.![clone the repo onto your drive](https://i.imgur.com/5SX5L8h.png)
   - If you do not have git installed, download a zip file of this repo.![download a zip file of this repo](https://i.imgur.com/oBaM6JE.png)
   - Open a terminal in the project directory in your code editor.
   - In the terminal, type `npm i`. Then hit enter.
