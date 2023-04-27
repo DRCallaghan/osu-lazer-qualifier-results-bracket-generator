@@ -9,7 +9,7 @@
   - [Description](#description)
   - [Installation](#installation)
   - [Usage](#usage)
-  - [Video Tutorial](#video)
+  - [Video Tutorial](#video-tutorial)
   - [Contribution](#contribution)
   - [Additional Info](#additional-info)
 
