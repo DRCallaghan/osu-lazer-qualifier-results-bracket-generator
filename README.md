@@ -9,6 +9,7 @@
   - [Description](#description)
   - [Installation](#installation)
   - [Usage](#usage)
+  - [Video Tutorial](#video)
   - [Contribution](#contribution)
   - [Additional Info](#additional-info)
 
@@ -49,6 +50,9 @@
   - In the terminal, type `node index.js`.
   - Follow all directions for listed in the terminal.
   - Your Lazer `bracket.json` is now in the project directory! Make sure to move it out once finished; all future uses of this program will overwrite any existing file named `bracket.json` in the project directory.
+
+  ## Video Tutorial
+  If you prefer a video tutorial rather than following this step-by-step, please use this [companion video](https://youtu.be/FpnKxfC6Rss).
 
   ## Outside Resources
   There were no collaborators on this project. My information can be found in Additional Info.
