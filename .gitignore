@@ -1,5 +1,6 @@
 .DS_Store
 /node_modules
 package-lock.json
-/db
+/db/maps.csv
+/db/scores.csv
 bracket.json

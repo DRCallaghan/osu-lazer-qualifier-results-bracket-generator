@@ -10,7 +10,6 @@
   - [Installation](#installation)
   - [Usage](#usage)
   - [Contribution](#contribution)
-  - [Testing](#testing)
   - [Additional Info](#additional-info)
 
   ## Description:
@@ -20,7 +19,15 @@
   - This project is, to my knowledge, the only open source and publicly available osu! Lazer tournament client script for importing qualifier results. It is also fully customizable to any tournament with a qualifier mappool; team size, qualifier pool structure, and mod pool sizes are all left up to the user.
 
   ## Installation:
-  TBA
+  - If you do not have a program which can run CLI apps installed, first install one. I recommend [VSCode](https://code.visualstudio.com/) for Windows users.
+  - Make sure you have [node.js](https://nodejs.org/en) installed in VSCode after downloading it. I recommend installing the LTS build recommended for most users.
+  - If you have git installed, clone the repo onto your drive.![clone the repo onto your drive](https://i.imgur.com/5SX5L8h.png)
+  - If you do not have git installed, download a zip file of this repo.![download a zip file of this repo](https://i.imgur.com/oBaM6JE.png)
+  - Open a terminal in the project folder in your code editor.
+  - In the terminal, type `npm i`. Then hit enter.
+  - Add your `maps.csv` and `scores.csv` files to the `/db` folder. For the structure of these files, see [Usage](#usage).
+  - You are now ready to run the program!
+
 
   ## Usage:
   TBA
