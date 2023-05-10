@@ -9,15 +9,16 @@ function generateBracket() {
     // global variable declaration for use in writing the bracket.json
     let teamData = [];
     let beatmaps = [];
-    let bracketText = `{
-        "Ruleset": {
-            "ShortName": "osu",
-            "Name": "osu!",
-            "InstantiationInfo": "osu.Game.Rulesets.Osu.OsuRuleset, osu.Game.Rulesets.Osu",
-            "Available": true
+    let bracketObject = {
+        Ruleset: {
+            ShortName: "osu!",
+            Name: "osu!",
+            InstantiationInfo: "osu.Game.Rulesets.Osu.OsuRuleset, osu.Game.Rulesets.Osu",
+            Avaliable: true
         },
-        "Teams": [
-            `;
+        Teams:[]
+    };
+
     let teamSize;
     let modPools;
     let modLengths;
@@ -62,6 +63,30 @@ function generateBracket() {
     function getTourneyInfo() {
         inquirer
             .prompt([
+                // gamemode
+                {
+                    type: 'list',
+                    message: 'What is the osu! gamemode for your tournament? (required)',
+                    name: 'gamemode',
+                    choices: [
+                        {
+                            name: 'osu! standard',
+                            value: 'standard'
+                        },
+                        {
+                            name: 'osu! taiko',
+                            value: 'taiko'
+                        },
+                        {
+                            name: 'osu! mania',
+                            value: 'mania'
+                        },
+                        {
+                            name: 'osu! catch',
+                            value: 'catch'
+                        }
+                    ]
+                },
                 // team size
                 {
                     type: 'input',
@@ -101,6 +126,27 @@ function generateBracket() {
                 // putting inquirer answers into global variables for later use
                 teamSize = parseInt(answers.teamSize);
                 modPools = answers.modPools.split(",");
+                
+                // changing ruleset info depending on gamemode.
+                switch(answers.gamemode)
+                {
+                    case 'standard':
+                        bracketObject.Ruleset.ShortName = "osu!";
+                        bracketObject.Ruleset.InstantiationInfo = "osu.Game.Rulesets.Osu.OsuRuleset, osu.Game.Rulesets.Osu";
+                        break;
+                    case 'taiko':
+                        bracketObject.Ruleset.ShortName = "taiko";
+                        bracketObject.Ruleset.InstantiationInfo = "osu.Game.Rulesets.Taiko.TaikoRuleset, osu.Game.Rulesets.Taiko";
+                        break;
+                    case 'catch':
+                        bracketObject.Ruleset.ShortName = "catch";
+                        bracketObject.Ruleset.InstantiationInfo = "osu.Game.Rulesets.Catch.CatchRuleset, osu.Game.Rulesets.Catch";
+                        break;
+                    case 'mania':
+                        bracketObject.Ruleset.ShortName = "mania";
+                        bracketObject.Ruleset.InstantiationInfo = "osu.Game.Rulesets.Mania.ManiaRuleset, osu.Game.Rulesets.Mania"
+                }
+
                 // trimming any mod pools of spaces and making them all caps
                 for (let i = 0; i < modPools.length; i++) {
                     modPools[i] = modPools[i].trim().toUpperCase();
@@ -127,22 +173,24 @@ function generateBracket() {
         for (let i = 0; i < teamData.length; i++) {
 
             // creating the basic new team structure to be added many times over
-            let newTeam = `{
-            "FullName": "${teamData[i][0]}",
-            "FlagName": "${teamData[i][1]}",
-            "Acronym": "${teamData[i][0].substring(0, 4)}",
-            "SeedingResults": [`;
-
-            // adding the new team basic structure to the bracket text before starting mod pool seeding results iteration
-            bracketText = bracketText + newTeam;
+            let newTeam = {
+                FullName: teamData[i][0],
+                FlagName: teamData[i][1],
+                Acronym: teamData[i][0].substring(0,4), // since each team's unique id is the acronym, this might have issues down the line..
+                SeedingResults: [],
+                Seed: 0,
+                Players: []
+            };
 
             // iterating over each mod text and adding all specific maps
             pastMaps = 0;
             pastMods = 0;
             for (let j = 0; j < modPools.length; j++) {
-                modSeedingResults = `
-                {
-                    "Beatmaps": [`;
+                modSeedingResults = { 
+                    Beatmaps: [],
+                    Mod: "",
+                    Seed: 0
+                }
                 // iterating over each map within that mod pool and adding them all to a string literal to be added to the full bracket text later
                 for (let k = 0; k < modLengths[j]; k++) {
                     // declaring variables for easy reading of array values during current map text declaration
@@ -150,44 +198,31 @@ function generateBracket() {
                     let scoreIndex = 2 + pastMaps;
                     // seed index is after all scores on all maps, which is given by the array.reduce method, and is after all mod pool seeds
                     let seedIndex = modLengths.reduce((accumulator, currentValue) => accumulator + currentValue, 3) + modPools.length + pastMaps;
-
-                    let currentMapText = `
-                        {
-                            "ID": ${beatmaps[pastMaps]},
-                            "Score": ${teamData[i][scoreIndex]},
-                            "Seed": ${teamData[i][seedIndex]}
-                        },`
+                    let currentMap = {
+                        ID: parseInt(beatmaps[pastMaps]),
+                        Score: parseInt(teamData[i][scoreIndex]),
+                        Seed: parseInt(teamData[i][seedIndex])
+                    }
                     // adding the current map to this mod pool's seeding results
-                    modSeedingResults = modSeedingResults + currentMapText;
+                    modSeedingResults.Beatmaps.push(currentMap);
                     // adding a buffer of past maps for future iterations
                     pastMaps++;
                 }
-                // removing the last comma from the set of map scores
-                modSeedingResults = modSeedingResults.substring(0, modSeedingResults.length - 1);
+             
                 // getting the index of the mod pool seed from the csv
                 let modSeedIndex = modLengths.reduce((accumulator, currentValue) => accumulator + currentValue, 3) + pastMods;
                 // finishing the mod seeding results
-                modSeedingResults = modSeedingResults + `
-                ],
-                "Mod": "${modPools[j]}",
-                "Seed": ${teamData[i][modSeedIndex]}
-                },`;
-                // adding each mod pool's results for that team to the bracket text
-                bracketText = bracketText + modSeedingResults;
+                modSeedingResults.Mod = modPools[j];
+                modSeedingResults.Seed = parseInt(teamData[i][modSeedIndex])    ;
+                // adding each mod pool's results for that team to the team object
+                newTeam.SeedingResults.push(modSeedingResults);
                 // adding a buffer of past mods for future iterations
                 pastMods++;
             }
-            // removing the last comma from the set of mod scores
-            bracketText = bracketText.substring(0, bracketText.length - 1);
 
             // adding the necessary ending text to the seeding results section of each team
             let totalSeedIndex = modLengths.reduce((accumulator, currentValue) => accumulator + currentValue, 2);
-            let seedingResultsEndCap = `
-                    ],
-                        "Seed": "${teamData[i][totalSeedIndex]}",
-                        "Players": [
-                            `;
-            bracketText = bracketText + seedingResultsEndCap;
+            newTeam.Seed = teamData[i][totalSeedIndex];
 
             // setting the index of the team size in the scores.csv file
             teamSizeIndex = modLengths.reduce((accumulator, currentValue) => accumulator + currentValue, 0) * 2 + modPools.length + 3;
@@ -195,28 +230,20 @@ function generateBracket() {
             for (let j = 0; j < teamData[i][teamSizeIndex]; j++) {
                 let uid = teamSizeIndex + 1 + j;
                 let uflag = uid + teamSize;
-                let playerData = `{
-                                "country": {
-                        "code": "${teamData[i][uflag]}"
+                let playerData = {
+                    country: {
+                        code: teamData[i][uflag]
                     },
-                    "id": ${teamData[i][uid]}
-                },`;
-                bracketText = bracketText + playerData;
+                    id: parseInt(teamData[i][uid])
+                };
+                newTeam.Players.push(playerData);
             };
-            bracketText = bracketText.substring(0, bracketText.length - 1);
-            let teamEnd = `]
-                    },
-        `;
-            bracketText = bracketText + teamEnd;
+
+            bracketObject.Teams.push(newTeam);
         }
-        // removing the last comma from the set of players
-        bracketText = bracketText.substring(0, bracketText.length - 10);
-        // ending the bracket file
-        bracketText = bracketText + `
-            ]
-        }`;
+        
         // writing the full file
-        writeToFile('bracket.json', bracketText);
+        writeToFile('bracket.json', JSON.stringify(bracketObject));
     }
 
     // calling all functions in order
