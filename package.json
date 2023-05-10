@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@inquirer/select": "^1.0.3",
     "csv-parse": "^5.3.3",
     "inquirer": "^8.2.4"
   }
